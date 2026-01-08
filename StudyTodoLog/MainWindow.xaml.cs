@@ -12,9 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Data.Sqlite;
 namespace StudyTodoLog
 {
-    /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
-    /// </summary>
+
     public partial class MainWindow : Window
     {
         private readonly DatabaseManager _db = new DatabaseManager();
@@ -90,6 +88,52 @@ namespace StudyTodoLog
                     MessageBoxImage.Error);
 
                 LoadTasks();
+            }
+        }
+
+        private void DeleteCompletedButton_Click(Object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int deletedCount = TaskModel.DeleteCompleted(_connectionString);
+                LoadTasks();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                        "完了タスクの削除に失敗しました\n\n" + ex.Message,
+                        "Delete Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+            }
+        }
+        
+        private void TaskItem_MouseDoubleClick(object sender, MouseEventArgs e) 
+        {
+            // ダブルクリックによって選択されたタスクを特定し、編集画面を開く
+            try
+            {
+                if (sender is not System.Windows.Controls.ListViewItem item) return;
+                if (item.Content is not TaskModel task) return;
+
+                var window = new EditTaskWindow(_connectionString, task)
+                {
+                    Owner = this
+                };
+
+                bool? result = window.ShowDialog();
+                if (result == true)
+                {
+                    LoadTasks();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "編集画面を開けませんでした\n\n" + ex.Message,
+                    "Edit Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

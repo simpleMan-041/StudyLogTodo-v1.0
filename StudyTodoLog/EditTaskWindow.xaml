@@ -1,11 +1,11 @@
-﻿<Window x:Class="StudyTodoLog.AddTaskWindow"
+﻿<Window x:Class="StudyTodoLog.EditTaskWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudyTodoLog"
         mc:Ignorable="d"
-        Title="タスク追加" Height="260" Width="420"
+        Title="タスク編集" Height="260" Width="420"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize">
     <Grid Margin="12">
@@ -19,13 +19,15 @@
         <TextBlock Text="タスク名(必須)" Margin="0,0,0,6"/>
         <TextBox x:Name="TitleTextBox" Grid.Row="1" Height="28"/>
 
-        <TextBlock Grid.Row="2" Text="メモ(任意)" Margin="0,12,0,6" VerticalAlignment="Top"/>
-        <TextBox x:Name="MemoTextBox" Grid.Row="2" Margin="0,34,0,0"
-                 AcceptsReturn="True" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="2" Text="メモ(任意)" Margin="0,2,0,6" VerticalAlignment="Top"/>
+        <TextBox x:Name="MemoTextBox" Grid.Row="2" Margin="0,22,0,0"
+                 AcceptsReturn="True" TextWrapping="NoWrap"/>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
             <Button Content="キャンセル" Width="100" Margin="0,0,12,0" Click="Cancel_Click"/>
             <Button Content="保存" Width="100" Click="Save_Click"/>
         </StackPanel>
+        
+
     </Grid>
 </Window>

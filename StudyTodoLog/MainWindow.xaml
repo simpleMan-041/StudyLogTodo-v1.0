@@ -8,7 +8,14 @@
         Title="MainWindow" Height="450" Width="800">
     <!--タスク一覧表示-->
     <Grid Margin="12">
+        <!--ダブルクリックによる編集機能-->
         <ListView x:Name="TaskListView">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="TaskItem_MouseDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="完了" Width="60">
@@ -39,5 +46,12 @@
                 VerticalAlignment="Bottom"
                 Margin="30"
                 Click="AddButton_Click"/>
+
+        <Button Content="完了タスクを削除"
+                Height="36"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Padding="12,0"
+                Click="DeleteCompletedButton_Click"/>
     </Grid>
 </Window>
