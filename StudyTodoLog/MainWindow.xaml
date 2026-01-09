@@ -5,88 +5,130 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudyTodoLog"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1000">
     <Window.Resources>
-        <!--上から順に追加ボタン、削除ボタンに適用-->
         <SolidColorBrush x:Key="AccentPurple" Color="#7C3AED"/>
         <SolidColorBrush x:Key="AccentPurpleLight" Color="#A78BFA"/>
         
-        <!--丸形追加ボタン用-->
-        <Style x:Key="RoundPurpleButtonStyle" TargetType="Button">
+        <!--追加、削除ボタンに適用されるデザイン-->
+        <Style x:Key="CirclePurpleButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource AccentPurple}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="14,8"/>
-            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="14"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        CornerRadius="999">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+
         <Style x:Key="RoundedListViewStyle" TargetType="ListView">
-            <Setter Property="BorderBrush" Value="#9400d3"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentPurpleLight}"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Background" Value="White"/>
-            <!--次回はここから。ListViewの外観を変更中-->
+        </Style>
+        
+        <Style x:Key="BigRowItemStyle" TargetType="ListViewItem">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Padding" Value="6"/>
         </Style>
     </Window.Resources>
+
     <!--タスク一覧表示-->
-    <Grid Margin="12">
-        <!--ダブルクリックによる編集機能-->
-        <ListView x:Name="TaskListView">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick" Handler="TaskItem_MouseDoubleClick"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="完了" Width="60">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <!--まずはデータを画面に正しく表示させる。次にチェックボックスの付け替えを可能にする。最後にチェック操作によって保存処理などを動かせるようにする。-->
-                                <CheckBox IsChecked="{Binding IsCompleted}" 
+    <Grid Margin="20">
+        <Border CornerRadius="14"
+                BorderBrush="{StaticResource AccentPurpleLight}"
+                BorderThickness="1"
+                Background="White"
+                SnapsToDevicePixels="True">
+            <!--ダブルクリックによる編集機能-->
+            <ListView x:Name="TaskListView"
+                  Style="{StaticResource RoundedListViewStyle}"
+                  SizeChanged="TaskListView_SizeChanged"    
+                  Margin="6">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource BigRowItemStyle}">
+                        <EventSetter Event="MouseDoubleClick" Handler="TaskItem_MouseDoubleClick"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.View>
+                    <GridView>
+                        <!--表頭のそれぞれの項目は比率＋最小幅で幅を配分します-->
+                        <GridViewColumn x:Name="ColCompleted" Header="完了" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource AccentPurpleLight}" BorderThickness="0,0,0,1" Padding="6,10">
+                                        <CheckBox IsChecked="{Binding IsCompleted}" 
                                           HorizontalAlignment="Center"
                                           Click="CompletedCheckBox_Click"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                    <GridViewColumn Header="タイトル" Width="220"
-                                    DisplayMemberBinding="{Binding Title}"/>
+                        <GridViewColumn x:Name="ColTitle" Header="タイトル" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource AccentPurpleLight}" BorderThickness="0,0,0,1" Padding="6,10">
+                                        <TextBlock Text="{Binding Title}"
+                                               FontSize="22"
+                                               FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                    <GridViewColumn Header="メモ" Width="420"
-                                    DisplayMemberBinding="{Binding Memo}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                        <GridViewColumn x:Name="ColMemo" Header="メモ" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource AccentPurpleLight}" BorderThickness="0,0,0,1" Padding="6,10">
+                                        <TextBlock Text="{Binding Memo}"
+                                               FontSize="18"
+                                               Opacity="0.85"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
 
 
-        
+        <!--編集時、ボタンが実行時よりも小さく見えることがありますが問題ありません-->
         <!--タスク追加を行うボタン。TaskModelのInsertメソッドと紐づける。-->
-        <Button Content=" + "
-                Width="52" Height="52"
-                FontSize="22"
+        <Button Content="＋"
+                Style="{StaticResource CirclePurpleButtonStyle}"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource CircleButtonSizeScale}}"
+                Height="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource CircleButtonSizeScale}}"
+                FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource CircleButtonFontScale}}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Margin="30"
                 Click="AddButton_Click"/>
 
-        <Button Content="完了タスクを削除"
-                Height="36"
+        <Button Content="🗑"
+                Style="{StaticResource CirclePurpleButtonStyle}"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource CircleButtonSizeScale}}"
+                Height="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource CircleButtonSizeScale}}"
+                FontSize="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=Window},Converter={StaticResource CircleButtonFontScale}}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Padding="12,0"
+                Margin="30"
                 Click="DeleteCompletedButton_Click"/>
     </Grid>
 </Window>

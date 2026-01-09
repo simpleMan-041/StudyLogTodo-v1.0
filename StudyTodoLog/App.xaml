@@ -4,6 +4,30 @@
              xmlns:local="clr-namespace:StudyTodoLog"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:ScaleConverter x:Key="HeaderFontScale" 
+                              BaseValue="16" 
+                              BaseWidth="800" 
+                              Min="14" 
+                              Max="28"/>
+
+        <local:ScaleConverter x:Key="CircleButtonSizeScale"
+                              BaseValue="56"
+                              BaseWidth="1000"
+                              Min="18"
+                              Max="96"/>
+        
+        <local:ScaleConverter x:Key="CircleButtonFontScale"
+                              BaseValue="26"
+                              BaseWidth="1000"
+                              Min="18"
+                              Max="44"/>
+        
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="FontSize"
+                    Value="{Binding ActualWidth,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource HeaderFontScale}}"/>
+            <Setter Property="Padding" Value="10,8"/>
+        </Style>
     </Application.Resources>
 </Application>
