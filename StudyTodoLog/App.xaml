@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:StudyTodoLog"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <!--メインウィンドウのコントロール編集-->
         <local:ScaleConverter x:Key="HeaderFontScale" 
                               BaseValue="16" 
                               BaseWidth="800" 
@@ -15,13 +16,13 @@
                               BaseWidth="1000"
                               Min="18"
                               Max="96"/>
-        
+
         <local:ScaleConverter x:Key="CircleButtonFontScale"
                               BaseValue="26"
                               BaseWidth="1000"
                               Min="18"
                               Max="44"/>
-        
+
         <Style TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="FontSize"
                     Value="{Binding ActualWidth,
@@ -29,5 +30,35 @@
                             Converter={StaticResource HeaderFontScale}}"/>
             <Setter Property="Padding" Value="10,8"/>
         </Style>
+        
+        <!--追加・編集画面のコントロール編集-->
+        <Style x:Key="FormLabelTextStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,6"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style x:Key="InputTitleTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <Style x:Key="InputMemoTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,22,0,0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <Style x:Key="FormActionButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="0,4"/>
+        </Style>
+        
     </Application.Resources>
 </Application>

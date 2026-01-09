@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudyTodoLog"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000">
+        Title="MainWindow" Height="600" Width="1000"
+        WindowState="Maximized">
     <Window.Resources>
         <SolidColorBrush x:Key="AccentPurple" Color="#7C3AED"/>
         <SolidColorBrush x:Key="AccentPurpleLight" Color="#A78BFA"/>
@@ -109,7 +110,6 @@
         </Border>
 
 
-        <!--編集時、ボタンが実行時よりも小さく見えることがありますが問題ありません-->
         <!--タスク追加を行うボタン。TaskModelのInsertメソッドと紐づける。-->
         <Button Content="＋"
                 Style="{StaticResource CirclePurpleButtonStyle}"
